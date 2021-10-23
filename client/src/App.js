@@ -19,7 +19,9 @@ function App() {
 
       // </Router>
       // </UserProvider>
-      <Login/>
+      <UserProvider>
+        <Login/>
+      </UserProvider>
   );
 }
 

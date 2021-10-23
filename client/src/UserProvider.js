@@ -3,13 +3,18 @@ import { auth } from "./authentication/firebase"
 export const UserContext = createContext({ user: null })
 export default (props) => {
     const [user, setuser] = useState(null)
+
+    const addUser = () => {
+        
+    }
+
     useEffect(() => {
         auth.onAuthStateChanged(async (user) => {
-            const { displayName, email } = user;
-            setuser({
-                displayName,
-                email
-            })
+          if(user) {
+              const token = await user
+              console.log(token)
+          }
+          
         })
     }, [])
     return (
