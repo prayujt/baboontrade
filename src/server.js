@@ -1,8 +1,10 @@
 let app = require('express')();
 let http = require('http').Server(app);
+
 const { MongoClient } = require('mongodb');
 
 const { connect } = require('./global');
+const { clientLobbyFunctions } = require('./functions/client/lobbyFunctions');
 
 const io = require('socket.io')(http, {
 	cors: {
@@ -14,8 +16,10 @@ const io = require('socket.io')(http, {
 let port = 8000;
 
 connect('baboontrade', async (client) => {
+    clientLobbyFunctions(client);
 	io.on('connection', (socket) => {
 		console.log('user connected');
+        // clientLobbyFunctions(client, socket);
 	});
 });
 
