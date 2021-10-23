@@ -7,16 +7,18 @@ export default function Login() {
     const user = useContext(UserContext)
     const [redirect, setredirect] = useState(null)
 
-    useEffect(() => {
-        if (user) {
-            setredirect('/')
-        }
-        
-    }, [user]);
+    console.log(user)
 
-    if(redirect) {
-        return <Redirect to={redirect}/>   
-    }
+    // useEffect(() => {
+    //     if (user) {
+    //         setredirect('/')
+    //     }
+        
+    // }, [user]);
+
+    // if(redirect) {
+    //     return <Redirect to={redirect}/>   
+    // }
 
 
     return (

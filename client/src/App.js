@@ -14,20 +14,12 @@ function App() {
   })
 
   return (
-      <UserProvider>
-      <Router>
-        <div className="App">
-          <Switch>
-            <Route path="/">
-              <Login/>
-            </Route>
-            <Route path="/lobby">
-              <Login/>
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-      </UserProvider>
+      // <UserProvider>
+      // <Router>
+
+      // </Router>
+      // </UserProvider>
+      <Login/>
   );
 }
 

@@ -1,0 +1,10 @@
+{
+    "lobby": {
+        "usernameChange": {
+            "inputValue": "uuid:String, username:String",
+            "returnValue": "none"
+        }
+        
+    }
+
+}
