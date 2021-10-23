@@ -11,20 +11,23 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
-            console.log(user)
+            setredirect('lobby')
+            console.log(user.loggedIn)
         }
-        
+      
     }, [user]);
 
     // if(redirect) {
     //     return <Redirect to={redirect}/>   
     // }
 
+    if(user.loggedIn){
+        return <Redirect to={redirect}/>
+    }
 
     return (
         <div>
             <button className="button" onClick={signInWithGoogle}><i className="fab fa-google"></i>Sign in with google</button>
-            <button onClick={logout}>Logout</button>
         </div>
     )
 }

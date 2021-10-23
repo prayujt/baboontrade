@@ -25,10 +25,14 @@ export const signInWithGoogle = () => {
     })
 };
 
-export const logout = () => auth.signOut()
+export const logout = async () => {
+  await auth.signOut().then(() => {
+      console.log("logged out")
+  })
+}
 
 // auth.onAuthStateChanged(user => {
-//     if(user){
+//     if(user){    
 //         console.log(user.uid)
 //     }
 //     else{
