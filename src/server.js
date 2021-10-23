@@ -16,7 +16,6 @@ let port = 8000;
 connect('baboontrade', async (client) => {
 	io.on('connection', (socket) => {
 		console.log('user connected');
-		clientLobbyFunctions(client, socket);
 	});
 });
 

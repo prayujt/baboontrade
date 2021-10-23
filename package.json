@@ -1,0 +1,30 @@
+{
+  "name": "baboontrade",
+  "version": "1.0.0",
+  "description": "Paper trading game",
+  "main": "server.js",
+  "dependencies": {
+    "concurrently": "^6.3.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.3",
+    "nodemon": "^2.0.14",
+    "socket.io": "^4.3.1",
+    "socket.io-client": "^4.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "client": "cd client && npm run start",
+    "server": "nodemon src/server.js",
+    "start": "concurrently \"npm run client\" \"npm run server\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prayujt/baboontrade.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prayujt/baboontrade/issues"
+  },
+  "homepage": "https://github.com/prayujt/baboontrade#readme"
+}
