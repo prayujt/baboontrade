@@ -2,9 +2,10 @@ const fs = require('fs');
 const { insert, dropCollection, createCollection } = require('../global');
 
 const startGame = async (client) => {
-    await dropCollection('stocks', client);
-    fs.readFile('resources/tickers_json', 'utf8', async (err, data) => {
+    // await dropCollection('stocks', client);
+    fs.readFile('./resources/tickers_json', 'utf8', async (err, data) => {
         data = JSON.parse(data);
+        console.log(data);
         for (let i = 0; i < Object.keys(data).length; i++) {
             let ticker = data[i]['ticker'];
             let name = data[i]['name'];

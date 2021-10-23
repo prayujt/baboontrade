@@ -1,8 +1,14 @@
 {
     "lobby": {
-        "usernameChange": {
-            "inputValue": "uuid:String, username:String",
-            "returnValue": "none"
+        "joinLobby": {
+            "inputValues": ["gameID: int", "playerUUID: String", "playerUsername: String"],
+            "returnValue": "status (found lobby or not)"
+        },
+        "createLobby": {
+            "inputValues": ["gameID: int", "playerUUID: String", "playerUsername: String"]
+        },
+        "lobbyUsernameChange": {
+            "inputValues": ["uuid:String", "username:String"]
         }
         
     }

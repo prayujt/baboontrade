@@ -9,6 +9,19 @@ exports.connect = async (database, callback) => {
 	callback(client.db(database));
 };
 
+exports.databaseExists = async (database, client) => {
+    let promise = await client.admin().listDatabases();
+    data = promise['databases'];
+    for (let i = 0; i < data.length; i++) {
+        if (data[i]['name'] == database) return true;
+    }
+    return false;
+}
+
+exports.dropDatabase = async (client) => {
+    client.dropDatabase(() => {});
+}
+
 exports.createCollection = async (collection, client) => {
 	await client.createCollection(collection);
 };
@@ -84,3 +97,12 @@ exports.match = (documentID) => {
 	}
 	return returnValue;
 };
+
+const getMethods = (obj) => {
+  let properties = new Set()
+  let currentObj = obj
+  do {
+    Object.getOwnPropertyNames(currentObj).map(item => properties.add(item))
+  } while ((currentObj = Object.getPrototypeOf(currentObj)))
+  return [...properties.keys()].filter(item => typeof obj[item] === 'function')
+}
