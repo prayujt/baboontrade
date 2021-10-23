@@ -11,7 +11,8 @@ const {
 	updateField,
 	replace,
 	watch,
-	match,
+  match,
+  dropDatabase,
 } = require('../../global');
 
 const { startGame } = require('../../events/StartGame');
@@ -21,83 +22,10 @@ exports.clientLobbyFunctions = async (client, socket) => {
 	let username_ = '';
 	let uuid_ = '';
 
-	socket.on('joinGame', async (gameID, uuid, username, response) => {
-		let gameExists = await exists('lobbies', { gameID: gameID }, client);
-		let status = true;
-		let player = {
-			gameID: gameID,
-			uuid: uuid,
-			username: username,
-		};
-		let message = {
-			gameID: gameID,
-			author: 'System',
-			message: username + ' has joined the lobby.',
-		};
-
-		socket.join(uuid);
-		socket.join(gameID);
-
-		if (gameExists && gameID != '') {
-			let playerExists = await exists('lobbyPlayers', { uuid: uuid }, client);
-			if (playerExists) {
-				await replace('lobbyPlayers', { uuid: uuid }, player, client);
-			} else {
-				await insert('lobbyPlayers', player, client);
-			}
-			await insert('lobbyMessages', message, client);
-
-			gameID_ = gameID;
-			username_ = username;
-			uuid_ = uuid;
-		} else {
-			status = false;
-		}
-
-		response({
-			status: status,
-		});
-	});
-
-	socket.on('createGame', async (gameID, uuid, username) => {
-		await insert(
-			'lobbies',
-			{
-				gameID: gameID,
-				gameStarted: false,
-				host: uuid,
-				settings: {
-					type: 'timed',
-					numCities: 10,
-				},
-			},
-			client
-		);
-
-		let player = {
-			gameID: gameID,
-			uuid: uuid,
-			username: username,
-		};
-
-		socket.join(uuid);
-		socket.join(gameID);
-
-		let playerExists = await exists('lobbyPlayers', { uuid: uuid }, client);
-		if (playerExists) {
-			await replace('lobbyPlayers', { uuid: uuid }, player, client);
-		} else {
-			await insert('lobbyPlayers', player, client);
-		}
-
-		gameID_ = gameID;
-		username_ = username;
-		uuid_ = uuid;
-	});
-
-	socket.on('updateLobbyUsername', async (userID, username) => {
+	socket.on('lobbyUsernameChange', async (userID, username) => {
+    console.log('received name change request');
 		await updateField(
-			'lobbyPlayers',
+			'players',
 			{ uuid: userID },
 			{ username: username },
 			client
@@ -106,7 +34,7 @@ exports.clientLobbyFunctions = async (client, socket) => {
 
 	socket.on('saveLobbySettings', async (settings) => {
 		await updateField(
-			'lobbies',
+			'settings',
 			{ gameID: gameID_ },
 			{ settings: settings },
 			client
@@ -145,8 +73,9 @@ exports.clientLobbyFunctions = async (client, socket) => {
 				}
 			}
 			if (!playerFound) {
-				remove('lobbies', { gameID: gameID_ }, client);
-				removeAll('lobbyMessages', { gameID: gameID_ }, client);
+        dropDatabase(client);
+				// remove('lobbies', { gameID: gameID_ }, client);
+				// removeAll('lobbyMessages', { gameID: gameID_ }, client);
 			}
 		} else if (!isHost) {
 			await insert(
@@ -163,8 +92,11 @@ exports.clientLobbyFunctions = async (client, socket) => {
 		remove('lobbyPlayers', { uuid: userID }, client);
 	});
 
-	socket.on('startGameInitialization', async () => {
-		await startGame(gameID_, client);
+	socket.on('startGameInitialization', async (response) => {
+      await startGame(client);
+      response({
+        status: true,
+      });
 	});
 
 	socket.on('disconnect', () => {
