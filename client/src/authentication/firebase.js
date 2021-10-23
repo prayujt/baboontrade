@@ -27,13 +27,13 @@ export const signInWithGoogle = () => {
 
 export const logout = () => auth.signOut()
 
-auth.onAuthStateChanged(user => {
-    if(user){
-        console.log(user.uid)
-    }
-    else{
-        console.log("yoot")
-    }
-})
+// auth.onAuthStateChanged(user => {
+//     if(user){
+//         console.log(user.uid)
+//     }
+//     else{
+//         console.log("yoot")
+//     }
+// })
 
 export default firebase;
